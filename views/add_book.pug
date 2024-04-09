@@ -8,7 +8,7 @@ head
 nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
   .container-fluid
     a.navbar-brand(href='/') Library Management Dashboard
-    //- h4.card-title Welcome #{currentUser.firstName}
+    h4.card-title Welcome #{currentUser.firstName}
     button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation')
       span.navbar-toggler-icon
     #navbarNav.collapse.navbar-collapse
@@ -19,6 +19,8 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
           a.nav-link(href='/users/addUser') Add User
         li.nav-item
           a.nav-link(href='/authors/addAuthor') Add Author
+        li.nav-item
+          a.nav-link(href='/admin/dashboard') Dashboard
         li.nav-item
           a.nav-link(href='/logout') Logout
 .container.d-flex.justify-content-center.align-items-center.min-vh-100

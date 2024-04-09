@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-// const mongoose = require("mongoose");
-// const multer = require("multer")
 
 // Get the models
 const Registration = require("../models/Registration");
@@ -28,7 +26,6 @@ router.post("/register", async (req, res) => {
     });
   } catch (err) {
     res.status(400).send("Sorry! Something went wrong.");
-    console.log(err);
   }
 });
 
@@ -61,55 +58,84 @@ router.get("/admin/dashboard", async (req, res) => {
       let numVarBooksInLib = await BookModel.countDocuments();
 
       let borrowedBooks = await BookModel.find({ status: "borrowed" });
-      let numBorrowedBooks = await BookModel.countDocuments({
+      let numBorrowedBooks = await IssueModel.countDocuments({
         status: "borrowed",
       });
-
       let availableBooks = await BookModel.find({ status: "available" });
-      // let numAvailableBooks = await BookModel.countDocuments({ status: 'available' });
       let numAvailableBooks = await BookModel.aggregate([
         { $match: { status: "available" } },
         {
           $group: {
-            _id: null, // Group by null to calculate across all documents
-            totalCopiesAvailable: { $sum: "$numCopies" }, // Sum up the 'copies' field from all documents
+            _id: null,
+            totalCopiesAvailable: { $sum: "$numCopies" },
           },
         },
       ]);
 
-      //  Total copies for all books
       let aggregationResult = await BookModel.aggregate([
         {
           $group: {
-            _id: null, // Group by null to calculate across all documents
-            totalCopies: { $sum: "$numCopies" }, // Sum up the 'copies' field from all documents
+            _id: null,
+            totalCopies: { $sum: "$numCopies" },
           },
         },
       ]);
-      // console.log("all users", users)
-      // console.log("copies available:",numAvailableBooks)
-      console.log("copies:", aggregationResult);
-      // console.log("authors No:",authors)
-      // console.log("No of users in the system:",users)
-      // console.log("No of Books in Lib:",varbooksInLib)
-      // console.log("No of Borrowed books: ",borrowedBooks)
 
-      res.render("admin_dashboard", {
+      const allIssues = await IssueModel.find();
+
+      const currentDate = new Date();
+
+      const overdueDuration = 7 * 24 * 60 * 60 * 1000; // 7 days
+
+      let totalOverdueCopies = 0;
+
+      allIssues.forEach(issue => {
+          const specifiedReturnDate = new Date(issue.specifiedReturnDate);
+          const issueDate = new Date(issue.issueDate);
+
+          const difference = specifiedReturnDate.getTime() - issueDate.getTime();
+
+          if (difference > overdueDuration) {
+             totalOverdueCopies += issue.copiesBorrowed;
+          }
+      });
+
+      const popularBook = await IssueModel.aggregate([
+        {
+            $group: {
+                _id: '$bookName', 
+                totalBorrows: { $sum: '$copiesBorrowed' } 
+            }
+        },
+        {
+            $sort: { totalBorrows: -1 } 
+        },
+        {
+            $limit: 1 
+        }
+    ]);
+        popularBook.length > 0 ? popularBook : 0
+    
+
+      
+
+       res.render("admin_dashboard", {
         numAuthors: numAuthors,
         numUsers: numUsers,
         numVarBooksInLib: numVarBooksInLib,
         numBorrowedBooks: numBorrowedBooks,
         availableBooks: numAvailableBooks[0],
         copies: aggregationResult[0],
+        overdue:totalOverdueCopies,
+        popularBook:popularBook,
         title: "Admin Dashboard",
         currentUser: req.session.user,
       });
     } catch (err) {
-      // res.status(400).send("Unable to find details from the db");
-      console.log("Error", err);
+      res.status(400).send("Unable to find details from the db");
+      console.log("error getting overdue", err)
     }
   } else {
-    console.log("cant find session");
     res.redirect("/login");
   }
 });
@@ -117,12 +143,10 @@ router.get("/admin/dashboard", async (req, res) => {
 // Logout route
 router.get("/logout", (req, res) => {
   if (req.session) {
-    // Destroy session
     req.session.destroy((err) => {
       if (err) {
         return res.status(500).send("Error logging out");
       }
-      // Redirect to login page after logout
       res.redirect("/login");
     });
   }

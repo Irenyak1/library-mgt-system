@@ -8,7 +8,7 @@ head
 nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
   .container-fluid
     a.navbar-brand(href='/') Library Management Dashboard
-    //- h4.card-title Welcome #{currentUser.firstName}
+    h4.card-title Welcome #{currentUser.firstName}
     button.navbar-toggler(type='button' data-bs-toggle='collapse' data-bs-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation')
       span.navbar-toggler-icon
     #navbarNav.collapse.navbar-collapse
@@ -20,11 +20,13 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
         li.nav-item
           a.nav-link(href='/authors/addAuthor') Add Author
         li.nav-item
+          a.nav-link(href='/admin/dashboard') Dashboard
+        li.nav-item
           a.nav-link(href='/logout') Logout
 .container.d-flex.justify-content-center.align-items-center.vh-100
   .issue-book-form
     h2.text-center.mb-4 Issue Book
-    form#issue-book-form(action="/books/issueBook?id="+book.__id method='POST' name='issueBookForm')
+    form#issue-book-form(action="/books/issueBook?id="+book._id method='POST' name='issueBookForm')
       .mb-3
         label.form-label(for='borrower') Select Borrower
         select#borrower.form-control(name='borrower')
@@ -32,19 +34,22 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
             option(value=user._id) #{user.fullName}
       .mb-3
         label.form-label(for='bookId') Book ID
-        input#bookId.form-control(value = book.bookId name='bookId')
+        input#bookId.form-control(name='bookId' value=book._id) 
       .mb-3
         label.form-label(for='bookName') Book Name
-        input#bookName.form-control(value = book.bookName name='bookName')
+        input#bookName.form-control(value=book._id name='bookName')
       .mb-3
-        label.form-label(for='copiesBorrowed') Number of Copies
+        label.form-label(for='genre') Book Genre
+        input#genre.form-control(value=book._id name='genre')
+      .mb-3
+        label.form-label(for='copiesBorrowed') Copies Borrowed
         input#copiesBorrowed.form-control(type='number' name='copiesBorrowed')
       .mb-3
         label.form-label(for='issueDate') Issue Date
-        input#issueDate.form-control(type='date' name='issueDate' required='')
+        input#issueDate.form-control(type='date' name='issueDate')
       .mb-3
         label.form-label(for='returnDate') Specified Return Date
-        input#specifiedReturnDate.form-control(type='date' name='specifiedReturnDate' required='')
+        input#specifiedReturnDate.form-control(type='date' name='specifiedReturnDate')
       .mb-3
         label.form-label(for='status') Status
         select#status.form-control(name='status')

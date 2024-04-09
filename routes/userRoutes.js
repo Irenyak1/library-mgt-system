@@ -7,7 +7,10 @@ const User = require("../models/User");
 // Get add user form
 router.get("/users/addUser", (req, res) => {
   if (req.session.user) {
-    res.render("add_user", { title: "Add user form" });
+    res.render("add_user", {
+      title: "Add user form",
+      currentUser: req.session.user
+    });
   } else {
     console.log("Can't find session");
     res.redirect("/login");
@@ -23,7 +26,9 @@ router.post("/users/addUser", async (req, res) => {
       await user.save();
       res.redirect("/users/userlist");
     } catch (err) {
-      res.status(400).render("index", { tittle: "Add user" });
+      res.status(400).render("index", {
+        tittle: "Add user",
+      });
       console.log(err);
     }
   } else {
@@ -40,7 +45,7 @@ router.get("/users/userlist", async (req, res) => {
       res.render("users_list", {
         title: "users list",
         users: items,
-        currentUser: req.session.user,
+        currentUser: req.session.user
       });
     } catch (err) {
       res.status(400).send("Unable to find items in the database");
@@ -56,7 +61,7 @@ router.get("/users/updateUser/:id", async (req, res) => {
   if (req.session.user) {
     try {
       const updateuser = await User.findOne({ _id: req.params.id });
-      res.render("edit_user", { user: updateuser });
+      res.render("edit_user", { user: updateuser, currentUser: req.session.user });
     } catch (err) {
       res.status(400).send("Unable to find item in the database");
     }

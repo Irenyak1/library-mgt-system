@@ -23,12 +23,13 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
         li.nav-item
           a.nav-link(href='/authors/addAuthor') Add Author
         li.nav-item
+          a.nav-link(href='/admin/dashboard') Dashboard
+        li.nav-item
           a.nav-link(href='/logout') Logout
 .container.mt-4
   .row.row-cols-1.row-cols-md-2.g-4
     .col
       .card.shadow
-        //- img.card-img-top(src='image1.jpg' alt='...')
         .card-body
           h5.card-title Books in the Lib
           p.card-text Varieties of books in the Lib: #{numVarBooksInLib}
@@ -36,48 +37,41 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
           a.btn.btn-primary(href='/books/booklist') View Varieties
     .col
       .card.shadow
-        //- img.card-img-top(src='image2.jpg' alt='...')
         .card-body
           h5.card-title Registered Users
           p.card-text Total number of Registered Users: #{numUsers}
           a.btn.btn-primary(href='/users/userlist') View Users
     .col
       .card.shadow
-        //- img.card-img-top(src='image2.jpg' alt='...')
         .card-body
           h5.card-title Registered Authors
           p.card-text Total number of Registered Authors: #{numAuthors}
           a.btn.btn-primary(href='/authors/authorlist') View Authors
     .col
       .card.shadow
-        //- img.card-img-top(src='image3.jpg' alt='...')
         .card-body
           h5.card-title Available Books
           p.card-text Number of books available: #{availableBooks.totalCopiesAvailable}
-          a.btn.btn-primary(href='') View Books
+          a.btn.btn-primary(href='/books/availablelist') View Books
     .col
       .card.shadow
-        //- img.card-img-top(src='image4.jpg' alt='...')
         .card-body
           h5.card-title Borrowed Books
           p.card-text Number of borrowed Books : #{numBorrowedBooks}
-          a.btn.btn-primary(href='#') View Books
+          a.btn.btn-primary(href='/books/issuedBooklist') View Books
     .col
       .card.shadow
-        //- img.card-img-top(src='image5.jpg' alt='...')
         .card-body
           h5.card-title Books Overdue
-          p.card-text Number of books overdue: #{NumofbooksInLib}
-          a.btn.btn-primary(href='#') View Books
+          p.card-text Number of books overdue:#{overdue}
+          a.btn.btn-primary(href='/books/overdueBooklist') View Books
     .col
       .card.shadow
-        //- img.card-img-top(src='image6.jpg' alt='...')
         .card-body
-          h5.card-title Popular Book Title: #{NumofbooksInLib}
+          h5.card-title Popular Book Title: #{popularBook.bookName}
           a.btn.btn-primary(href='#') View Details
     .col
       .card.shadow
-        //- img.card-img-top(src='image5.jpg' alt='...')
         .card-body
           h5.card-title Popular Genre: #{NumofbooksInLib}
           a.btn.btn-primary(href='#') View Books

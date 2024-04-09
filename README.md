@@ -27,25 +27,26 @@ e.g DATABASE=mongodb://localhost:27017/"your-collection name"
 
 ## Deployment 
 * This App is hosted on [render.com](https://library-mgt-system.onrender.com/)
+* Sample login details; email: inyakate@gmail.com, password: Ilovecode@1844.
+
 
 ## Folder Structure
 * The application is arranged in an MVC architecture for Separation of concerns and 
   also make it easier to develop, maintain, and scale the application
 
-├── models/        # Mongoose models
-├── public/        # Static assets (CSS, images, js)
-├── routes/        # Express routes
-├── views/         # Pug templates
-├── .env           # Database configuration file 
-├── .gitignore     # Git ignore file    
-├── app.js         # Express server file
-├── package.json   # npm package file
-└── README.md      # Application documentation file
+├── models/      # Mongoose models
+├── public/      # Static assets (CSS, images, js)
+├── routes/      # Express routes
+├── views/       # Pug templates
+├── .env         # Database configuration file 
+├── .gitignore   # Git ignore file    
+├── app.js       # Express server file
+├── package.json # npm package file
+└── README.md    # Application documentation file
 
-## Dependencies
+## Technologies used
 * express: Web framework for Node.js
 * pug: Template engine for Node.js
 
 ## Author 
 Irene Nyakate
-

@@ -19,20 +19,23 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
         li.nav-item
           a.nav-link(href='/authors/addAuthor') Add Author
         li.nav-item
+          a.nav-link(href='/admin/dashboard') Dashboard
+        li.nav-item
           a.nav-link(href='/logout') Logout
-header.card-header
-    h4.card-titled-flex Welcome #{currentUser.firstName}
-    |&nbsp
-    div.form-row
-        div.col.form-group.col-md-6
-            form.search(action='/bookList')
-                div.form-row
-                    div.col-md-8
-                        input.form-control(name='genre' placeholder="Enter your search term(genre) ...")
-                    div.col-md-4
-                        input.btn.btn-secondary.btn-block(type="submit")
 .container
     h2.text-center.mt-5.mb-4 Available Books
+    form.search(action='/books/availablelist')
+      div.form-row
+        div.col-md-8
+          select.form-control(type="text" name="genre")
+            option(value="Default") (Select book Genre...)
+            option(value="fiction") Fiction
+            option(value="poetry") Poetry
+            option(value="science") Science
+            option(value="humor") Humor
+            option(value="history") History
+        div.col-md-4
+          input.btn.btn-primary.btn-block(type="submit")
     table.table.table-striped
         thead
         tr
@@ -45,11 +48,10 @@ header.card-header
         tbody
             if books.length
             each book in books
-            if book.status === "available" && book.numCopies >= 1
               tr
                 td #{book.bookId}
                 td #{book.bookName}
-                td #{book.authorName}
+                td #{book.authorName.fullName}
                 td #{book.genre}
                 td #{book.numCopies}
                 td

@@ -7,9 +7,11 @@ const AuthorModel = require("../models/authorModel");
 // Get add author form
 router.get("/authors/addAuthor", (req, res) => {
   if (req.session.user) {
-    res.render("add_author", { title: "Register Author form" });
+    res.render("add_author", {
+      title: "Register Author form",
+      currentUser: req.session.user,
+    });
   } else {
-    console.log("Can't find session");
     res.redirect("/login");
   }
 });
@@ -19,15 +21,12 @@ router.post("/authors/addAuthor", async (req, res) => {
   if (req.session.user) {
     try {
       const author = new AuthorModel(req.body);
-      console.log(author);
       await author.save();
       res.redirect("/authors/authorlist");
     } catch (err) {
       res.status(400).render("add_author", { tittle: "Add author" });
-      console.log(err);
     }
   } else {
-    console.log("Can't find session");
     res.redirect("/login");
   }
 });
@@ -46,19 +45,19 @@ router.get("/authors/authorlist", async (req, res) => {
       res.status(400).send("Unable to find items in the database");
     }
   } else {
-    console.log("Can't find session");
     res.redirect("/login");
   }
 });
 
-// update author
-// /authors/updateAuthor/
-// get update user form
+// get update author form
 router.get("/authors/updateAuthor/:id", async (req, res) => {
   if (req.session.user) {
     try {
       const updateAuthor = await AuthorModel.findOne({ _id: req.params.id });
-      res.render("edit_author", { author: updateAuthor });
+      res.render("edit_author", {
+        author: updateAuthor,
+        currentUser: req.session.user,
+      });
     } catch (err) {
       res.status(400).send("Unable to find item in the database");
     }
@@ -78,14 +77,11 @@ router.post("/authors/updateAuthor/", async (req, res) => {
       res.status(404).send("Unable to update item in the database");
     }
   } else {
-    console.log("Can't find session");
     res.redirect("/login");
   }
 });
 
 // Delete author
-// /authors/deleteAuthor
-
 router.post("/authors/deleteAuthor", async (req, res) => {
   if (req.session.user) {
     try {
@@ -95,11 +91,8 @@ router.post("/authors/deleteAuthor", async (req, res) => {
       res.status(400).send("Unable to delete author in the database");
     }
   } else {
-    console.log("Can't find session");
     res.redirect("/login");
   }
 });
-
-
 
 module.exports = router;

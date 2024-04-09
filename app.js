@@ -15,6 +15,7 @@ require("dotenv").config();
 // import models
 const Registration = require("./models/Registration");
 
+// set port 
 const port = 4200;
 
 // import routes
@@ -29,7 +30,7 @@ const userRoutes = require("./routes/userRoutes")
 const app = express();
 
 // set db connection to mongoose
-mongoose.connect(process.env.DATABASE, {
+mongoose.connect(process.env.DATABASE_LOCAL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -43,14 +44,12 @@ mongoose.connection
  });
 
 //set view engine to pug
-// app.engine('pug', require('pug').__express);//new pug requires this line to work
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static(path.join(__dirname, "public")));
-// app.use('/public/images', express.static(__dirname + '/public/images'))
-app.use(express.urlencoded({ extended: true })); //new way
-// app.use(express.json());
+app.use(express.urlencoded({ extended: true })); 
+app.use(express.json());
 app.use(cors());
 
 // express session configs
@@ -76,15 +75,5 @@ app.get("*", (req, res) => {
   res.render("404");
 });
 
-//set app to listen to the specified port
-// app.listen(port, err => {
-//   if (err) {
-//     return console.log("Error", err);
-//   }
-//   console.log(`App running on port ${port}`);
-// });
-
 // hosting
-app.listen(process.env.PORT || port,()=> console.log(`listening on port ${port}`));
-
-
+app.listen(port || process.env.PORT,()=> console.log(`listening on port ${port}`));

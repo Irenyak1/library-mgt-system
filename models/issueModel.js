@@ -13,6 +13,10 @@ const issueSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "BookModel"
   },
+  genre: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "BookModel"
+  },
   issueDate: {
     type: String,
     trim: true
@@ -20,6 +24,10 @@ const issueSchema = new mongoose.Schema({
   specifiedReturnDate: {
     type: String,
     trim: true
+  },
+  copiesBorrowed:{
+    type: Number,
+    trim: true,
   },
   status: {
     type: String,

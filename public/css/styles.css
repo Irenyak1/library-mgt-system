@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 body {
-    background-image: url('../images/karolina-grabowska-H_eb_VfG2Ow-unsplash.jpg'); /* Replace with your background image path */
+    background-image: url('../images/karolina-grabowska-H_eb_VfG2Ow-unsplash.jpg');
     background-size: cover;
     background-position: center;
     height: 100%;
@@ -13,7 +13,6 @@ body {
 .lib {
     color: #fff;
     text-align: center;
-    color: #fff;
     padding: 200px 0;
 }
 
@@ -23,62 +22,35 @@ body {
 }
 
 .card {
-background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background for card */
+background-color: rgba(255, 255, 255, 0.8);
 }
 
-.login-form, .signup-form {
+.login-form,
+.signup-form,
+.add-author-form,
+.edit-author-form,
+.add-book-form,
+.edit-book-form,
+.add-user-form,
+.edit-user-form,
+.issue-book-form,
+.return-book-form
+ {
     width: 400px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background for form */
-    margin: 60px auto; /* Center the form vertically and horizontally */
+    background-color: rgba(255, 255, 255, 0.8); 
+}
+
+.login-form, .signup-form{
+    margin: 60px auto;
 }
 
 .add-author-form, .edit-author-form {
-    width: 400px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background for form */
     margin: 50px auto;
 }
 
-.add-book-form, .edit-book-form{
-    width: 400px;
-    padding: 20px;
-    border: 1px solid #ccc; /* 1px border */
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.8); /* White background with opacity */
-}
-
 .user-form, .edit-user-form{
-    width: 400px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.8); /* White background with opacity */
-    margin-top: 50px; /* Adjust top margin for spacing */
+    margin-top: 50px;
 }
-
-.issue-book-form, .return-book-form{
-    width: 400px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.8); /* White background with opacity */
-}
-
-/* .return-book-form {
-    width: 400px;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
-} */
-
-/* .edit-book-form {
-    width: 400px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-} */

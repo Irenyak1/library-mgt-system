@@ -25,31 +25,7 @@ const bookSchema = mongoose.Schema({
     type: String,
     default: "available",
     trim: true,
-  },
-  borrower: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
-  copiesBorrowed:{
-    type: Number,
-    trim: true,
-  },
-  issueDate: {
-    type: String,
-    trim: true,
-  },
-  specifiedReturnDate: {
-    type: String,
-    trim: true,
-  },
-  actualReturnDate: {
-    type: String,
-    trim: true,
-  },
-  fineStatus: {
-    type: Number,
-    trim: true,
-  },
+  }
 });
 
 module.exports = mongoose.model("BookModel", bookSchema);
