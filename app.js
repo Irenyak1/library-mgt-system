@@ -30,7 +30,7 @@ const userRoutes = require("./routes/userRoutes")
 const app = express();
 
 // set db connection to mongoose
-mongoose.connect(process.env.DATABASE_LOCAL, {
+mongoose.connect(process.env.DATABASE, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
