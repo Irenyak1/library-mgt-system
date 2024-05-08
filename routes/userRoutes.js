@@ -15,20 +15,21 @@ router.get("/users/addUser", (req, res) => {
 
 // add user
 router.post("/users/addUser", async (req, res) => {
-  const { userId, email } = req.body;
+  const { userID, email } = req.body;
     try {
-      const existingUser = await User.findOne({ $or: [{ userId }, { email }] });
+      const existingUser = await User.findOne({ $or: [{ userID }, { email }] });
     if (existingUser) {
       return res.status(409).json({ message: 'User Id or email already exists' });
     }
     const newUser = new User(req.body);
     await newUser.save();
-    // res.redirect("/users/userlist");
-    res.redirect("/users/addUser");
+    res.redirect("/users/userlist");
+    // res.redirect("/users/addUser");
     } catch (err) {
-      res.status(400).render("add_user", {
-        tittle: "Add user",
-      });
+      // res.status(400).render("add_user", {
+      //   tittle: "Add user",
+      // });
+      res.status(400).json({message: "User was not added, try again"});
       console.log("Add user error", err);
     }
 });

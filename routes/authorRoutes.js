@@ -26,8 +26,7 @@ router.post("/authors/addAuthor", async (req, res) => {
       }      
         const author = new AuthorModel(req.body);
         await author.save();
-      // res.redirect("/authors/authorlist");
-      res.redirect("/authors/addAuthor");
+      res.redirect("/authors/authorlist");
    } catch (err) {
       res.status(400).render("add_author", { tittle: "Add author" });
       console.log("add author error", err);
