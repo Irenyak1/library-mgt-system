@@ -16,7 +16,7 @@ require("dotenv").config();
 const Registration = require("./models/Registration");
 
 // set port 
-const port = 4200;
+const port = 4100;
 
 // import routes
 const indexRoutes = require("./routes/indexRoutes");
@@ -24,13 +24,14 @@ const adminRoutes = require("./routes/adminRoutes");
 const authorRoutes = require("./routes/authorRoutes")
 const bookRoutes = require("./routes/bookRoutes")
 const userRoutes = require("./routes/userRoutes")
+const genreRoutes = require("./routes/genreRoutes")
 
 
 //instantiate the app
 const app = express();
 
 // set db connection to mongoose
-mongoose.connect(process.env.DATABASE, {
+mongoose.connect(process.env.DATABASE_LOCAL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -68,6 +69,7 @@ app.use("/", adminRoutes);
 app.use("/", authorRoutes);
 app.use("/", bookRoutes);
 app.use("/", userRoutes);
+app.use("/", genreRoutes);
 
 
 //for invalid routes

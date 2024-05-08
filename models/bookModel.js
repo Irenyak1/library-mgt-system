@@ -4,6 +4,7 @@ const bookSchema = mongoose.Schema({
   bookId: {
     type: String,
     trim: true,
+    unique: true
   },
   bookName: {
     type: String,
@@ -13,9 +14,13 @@ const bookSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "AuthorModel",
   },
+  // genre: {
+  //   type: String,
+  //   trim: true,
+  // },
   genre: {
-    type: String,
-    trim: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "GenreModel",
   },
   numCopies: {
     type: Number,

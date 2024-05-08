@@ -1,0 +1,14 @@
+extends layout2
+block content
+  .container.d-flex.justify-content-center.align-items-center.vh-100
+    .row.justify-content-center
+      .col-md-6
+        .add-genre-form
+          h2.text-center.mb-4 Add Genre
+          form#add-genre-form(action='/genres/addGenre' method='POST' name='addGenreForm') 
+            .mb-3
+              label.form-label(for='genre') Genre
+              input#genre.form-control(type='text' name='genreName')
+              small#genreErr
+            .text-center
+              button.btn.btn-primary(type='submit') Add Genre

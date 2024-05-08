@@ -1,41 +1,43 @@
 const express = require("express");
 const router = express.Router();
+const connectEnsureLogin = require("connect-ensure-login");
 
 // Get the Registration model
 const AuthorModel = require("../models/authorModel");
 
 // Get add author form
 router.get("/authors/addAuthor", (req, res) => {
-  if (req.session.user) {
     res.render("add_author", {
       title: "Register Author form",
       currentUser: req.session.user,
     });
-  } else {
-    res.redirect("/login");
-  }
 });
 
 // add author
 router.post("/authors/addAuthor", async (req, res) => {
-  if (req.session.user) {
     try {
-      const author = new AuthorModel(req.body);
-      await author.save();
-      res.redirect("/authors/authorlist");
-    } catch (err) {
+      const existingAuthor = await AuthorModel.findOne({
+        authorId: req.body.authorId,
+      });
+      if (existingAuthor) {
+        return res
+          .status(400)
+          .send("Not registered, an author with a similar Id already exists!");
+      }      
+        const author = new AuthorModel(req.body);
+        await author.save();
+      // res.redirect("/authors/authorlist");
+      res.redirect("/authors/addAuthor");
+   } catch (err) {
       res.status(400).render("add_author", { tittle: "Add author" });
+      console.log("add author error", err);
     }
-  } else {
-    res.redirect("/login");
-  }
 });
 
-// retrieve uathors from the database
+// retrieve authors from the database
 router.get("/authors/authorlist", async (req, res) => {
-  if (req.session.user) {
     try {
-      let items = await AuthorModel.find();
+      let items = await AuthorModel.find().sort({$natural:-1});
       res.render("authors_list", {
         title: "authors list",
         authors: items,
@@ -44,14 +46,10 @@ router.get("/authors/authorlist", async (req, res) => {
     } catch (err) {
       res.status(400).send("Unable to find items in the database");
     }
-  } else {
-    res.redirect("/login");
-  }
 });
 
 // get update author form
 router.get("/authors/updateAuthor/:id", async (req, res) => {
-  if (req.session.user) {
     try {
       const updateAuthor = await AuthorModel.findOne({ _id: req.params.id });
       res.render("edit_author", {
@@ -61,38 +59,26 @@ router.get("/authors/updateAuthor/:id", async (req, res) => {
     } catch (err) {
       res.status(400).send("Unable to find item in the database");
     }
-  } else {
-    console.log("Can't find session");
-    res.redirect("/login");
-  }
 });
 
 // post updated user
 router.post("/authors/updateAuthor/", async (req, res) => {
-  if (req.session.user) {
     try {
       await AuthorModel.findOneAndUpdate({ _id: req.query.id }, req.body);
       res.redirect("/authors/authorlist");
     } catch (err) {
       res.status(404).send("Unable to update item in the database");
     }
-  } else {
-    res.redirect("/login");
-  }
 });
 
 // Delete author
 router.post("/authors/deleteAuthor", async (req, res) => {
-  if (req.session.user) {
     try {
       await AuthorModel.deleteOne({ _id: req.body.id });
       res.redirect("back");
     } catch (err) {
       res.status(400).send("Unable to delete author in the database");
     }
-  } else {
-    res.redirect("/login");
-  }
 });
 
 module.exports = router;
